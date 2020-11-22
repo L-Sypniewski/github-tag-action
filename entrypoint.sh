@@ -135,6 +135,7 @@ fi
 
 # set outputs
 echo ::set-output name=new_tag::$new
+echo ::set-output name=new_tag_without_prefix::$tagWithoutPrefix
 echo ::set-output name=part::$part
 
 # use dry run to determine the next tag
