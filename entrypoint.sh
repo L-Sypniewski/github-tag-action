@@ -90,7 +90,7 @@ fi
     # Get number of occurrences of bump key words in 
     # all commits between the current one and the last tag
 
-if [ $tag = $initial_version ] then
+if [ $tag = $initial_version ]; then
     number_of_major=$(git log --pretty=format:%B | grep -E "#major" -c)
     number_of_minor=$(git log --pretty=format:%B | grep -E "#minor" -c)
     number_of_patch=$(git log --pretty=format:%B | grep -E "#patch" -c)
@@ -112,14 +112,14 @@ then
 fi
 
 
-if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ] then
+if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ]; then
     for (( c=1; c<=$number_of_patch; c++ ))
     do
         new=$(semver -i patch $tagWithoutPrefix); part="patch"
     done
 fi
 
-if [ $number_of_major = 0 ] then
+if [ $number_of_major = 0 ]; then
     for (( c=1; c<=$number_of_minor; c++ ))
     do
         new=$(semver -i minor $tagWithoutPrefix); part="minor"
