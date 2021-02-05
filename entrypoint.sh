@@ -98,12 +98,11 @@ if [ $tag = $initial_version ]; then
     number_of_patch=$(git log --pretty=format:%B | grep -E "#patch" -c)
 else 
 
-    echo "Tag is not equal to initial version"
-    echo "Current commit: ${commit}, last tag: ${tag}"
-    echo "Latest commits:"
-    echo "$(git log $commit...$tag --pretty=format:%B)"
-    echo "**************************"
-    git log $commit...$tag --pretty=format:%B
+    echo -e "Tag is not equal to initial version"
+    echo -e "\tCurrent commit: ${commit}\n\tlast tag: ${tag}"
+    echo -e "Latest commits:"
+    echo -e "\t$(git log $commit...$tag --pretty=format:%B)"
+    echo -e "**************************"
 
     number_of_major=$(git log $commit...$tag --pretty=format:%B | grep -E "#major" -c)
     number_of_minor=$(git log $commit...$tag --pretty=format:%B | grep -E "#minor" -c)
@@ -149,6 +148,10 @@ if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ] & [ $number_of_patch = 0 
     fi 
 fi
 
+#temp
+echo -e "\nNew tag: $new"
+exit 0
+#**
 
 if $pre_release
 then
