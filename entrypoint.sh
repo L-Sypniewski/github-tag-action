@@ -101,7 +101,7 @@ else
 
     echo -e "Tag is not equal to initial version"
     echo -e "\tGITHUB_SHA: ${GITHUB_SHA}"
-    echo -e "\PULL_REQUEST_HEAD: ${PULL_REQUEST_HEAD}"
+    echo -e "\PULL_REQUEST_HEAD: ${pull_request_head}"
     echo -e "\tCurrent commit: ${commit}\n\tlast tag: ${tag}"
     echo -e "Latest commits:"
     echo -e "\t$(git log $pull_request_head...$tag --pretty=format:%B)"
