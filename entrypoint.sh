@@ -85,6 +85,8 @@ then
   echo $log
 fi
 
+# calculate new tag
+
 tagWithoutPrefix=${tag#"$prefix"}
 case "$log" in
     *#major* ) new=$(semver -i major $tagWithoutPrefix); part="major";;
@@ -114,13 +116,14 @@ echo $part
 # did we get a new tag?
 if [ ! -z "$new" ]
 then
-	# prefix with 'v'
+	# prefix with 'prefix'
 	if [ ! -z "$prefix" ]
 	then
 		new="$prefix$new"
 	fi
 fi
 
+# set a new tag to a provider CUSTOM_TAG - discard calculated tag
 if [ ! -z $custom_tag ]
 then
     new="$custom_tag"
@@ -143,13 +146,16 @@ echo ::set-output name=new_tag::$new
 echo ::set-output name=new_tag_without_prefix::$new_tag_without_prefix
 echo ::set-output name=part::$part
 
+# set the old tag value as an output
+echo ::set-output name=tag::$tag
+
+
 # use dry run to determine the next tag
 if $dryrun
 then
     exit 0
 fi 
 
-echo ::set-output name=tag::$tag
 
 # create local git tag
 git tag $new
