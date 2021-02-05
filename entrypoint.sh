@@ -140,11 +140,14 @@ if [ $number_of_major = 0 ] & [ -z $new ]; then
     done
 fi
 
-for (( c=1; c<=$number_of_major; c++ ))
+if [ $number_of_major > 0 ]; then
     new=$tagWithoutPrefix
+    for (( c=1; c<=$number_of_major; c++ ))
     do
-        new=$(semver -i major $new); part="major"
+    new=$(semver -i major $new); part="major"
     done
+fi
+
 
 if [ -z $new ]; then
     if [ "$default_semvar_bump" == "none" ]; then
