@@ -91,10 +91,20 @@ fi
     # all commits between the current one and the last tag
 
 if [ $tag = $initial_version ]; then
+
+    echo "Tag is equal to initial version"
     number_of_major=$(git log --pretty=format:%B | grep -E "#major" -c)
     number_of_minor=$(git log --pretty=format:%B | grep -E "#minor" -c)
     number_of_patch=$(git log --pretty=format:%B | grep -E "#patch" -c)
 else 
+
+    echo "Tag is not equal to initial version"
+    echo "Current commit: ${commit}, last tag: ${tag}"
+    echo "Latest commits:"
+    echo "$(git log $commit...$tag --pretty=format:%B"
+    echo "**************************"
+    git log $commit...$tag --pretty=format:%B
+
     number_of_major=$(git log $commit...$tag --pretty=format:%B | grep -E "#major" -c)
     number_of_minor=$(git log $commit...$tag --pretty=format:%B | grep -E "#minor" -c)
     number_of_patch=$(git log $commit...$tag --pretty=format:%B | grep -E "#patch" -c)
@@ -105,10 +115,10 @@ tagWithoutPrefix=${tag#"$prefix"}
 
 if $verbose
 then
-  echo e "number_of_major occurrences ${number_of_major}\n"
-  echo e "number_of_minor occurrences ${number_of_minor}\n"
-  echo e "number_of_patch occurrences ${number_of_patch}\n"
-  echo e "tagWithoutPrefix ${tagWithoutPrefix}\n"
+  echo "number_of_major occurrences ${number_of_major}"
+  echo "number_of_minor occurrences ${number_of_minor}"
+  echo "number_of_patch occurrences ${number_of_patch}"
+  echo "tagWithoutPrefix ${tagWithoutPrefix}"
 fi
 
 
@@ -134,10 +144,9 @@ for (( c=1; c<=$number_of_major; c++ ))
 if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ] & [ $number_of_patch = 0 ]; then
     if [ "$default_semvar_bump" == "none" ]; then
             echo "Default bump was set to none. Skipping..."; exit 0 
-        else 
+    else 
             new=$(semver -i "${default_semvar_bump}" $tagWithoutPrefix); part=$default_semvar_bump 
-        fi 
-        ;;
+    fi 
 fi
 
 
