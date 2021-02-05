@@ -144,7 +144,7 @@ if [ $number_of_major = 0 ] & [ -z $new ]; then
     done
 fi
 
-if [ $number_of_major > 0 ]; then
+if [ -z $new ]; then
    echo "\number_of_major: Base value of new: $new"
     new=$tagWithoutPrefix
     for (( c=1; c<=$number_of_major; c++ ))
