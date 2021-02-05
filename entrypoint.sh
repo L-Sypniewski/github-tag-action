@@ -126,9 +126,12 @@ fi
 
 if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ]; then
     new=$tagWithoutPrefix
+    echo "\tBase value of new: $new"
     for (( c=1; c<=$number_of_patch; c++ ))
     do
+      echo "\tValue of new before iteration $c= $new"
         new=$(semver -i patch $new); part="patch"
+         echo "\tValue of new after iteration $c= $new"
     done
 fi
 
