@@ -72,6 +72,7 @@ tag_commit=$(git rev-list -n 1 $tag)
 
 # get current commit hash
 commit=$(git rev-parse HEAD)
+pull_request_head=$PULL_REQUEST_HEAD
 
 if [ "$tag_commit" == "$commit" ]; then
     echo "No new commits since previous tag. Skipping..."
@@ -100,14 +101,15 @@ else
 
     echo -e "Tag is not equal to initial version"
     echo -e "\tGITHUB_SHA: ${GITHUB_SHA}"
+    echo -e "\PULL_REQUEST_HEAD: ${PULL_REQUEST_HEAD}"
     echo -e "\tCurrent commit: ${commit}\n\tlast tag: ${tag}"
     echo -e "Latest commits:"
-    echo -e "\t$(git log $commit...$tag --pretty=format:%B)"
+    echo -e "\t$(git log $pull_request_head...$tag --pretty=format:%B)"
     echo -e "**************************"
 
-    number_of_major=$(git log $commit...$tag --pretty=format:%B | grep -E "#major" -c)
-    number_of_minor=$(git log $commit...$tag --pretty=format:%B | grep -E "#minor" -c)
-    number_of_patch=$(git log $commit...$tag --pretty=format:%B | grep -E "#patch" -c)
+    number_of_major=$(git log $pull_request_head...$tag --pretty=format:%B | grep -E "#major" -c)
+    number_of_minor=$(git log $pull_request_head...$tag --pretty=format:%B | grep -E "#minor" -c)
+    number_of_patch=$(git log $pull_request_head...$tag --pretty=format:%B | grep -E "#patch" -c)
 fi
 
 
