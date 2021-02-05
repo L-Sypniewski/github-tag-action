@@ -125,25 +125,28 @@ fi
 
 
 if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ]; then
+    new=$tagWithoutPrefix
     for (( c=1; c<=$number_of_patch; c++ ))
     do
-        new=$(semver -i patch $tagWithoutPrefix); part="patch"
+        new=$(semver -i patch $new); part="patch"
     done
 fi
 
-if [ $number_of_major = 0 ]; then
+if [ $number_of_major = 0 ] & [ -z $new ]; then
+    new=$tagWithoutPrefix
     for (( c=1; c<=$number_of_minor; c++ ))
     do
-        new=$(semver -i minor $tagWithoutPrefix); part="minor"
+        new=$(semver -i minor $new); part="minor"
     done
 fi
 
 for (( c=1; c<=$number_of_major; c++ ))
+    new=$tagWithoutPrefix
     do
-        new=$(semver -i major $tagWithoutPrefix); part="major"
+        new=$(semver -i major $new); part="major"
     done
 
-if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ] & [ $number_of_patch = 0 ]; then
+if [ -z $new ]; then
     if [ "$default_semvar_bump" == "none" ]; then
             echo "Default bump was set to none. Skipping..."; exit 0 
     else 
