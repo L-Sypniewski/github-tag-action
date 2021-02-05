@@ -101,7 +101,7 @@ else
     echo "Tag is not equal to initial version"
     echo "Current commit: ${commit}, last tag: ${tag}"
     echo "Latest commits:"
-    echo "$(git log $commit...$tag --pretty=format:%B"
+    echo "$(git log $commit...$tag --pretty=format:%B)"
     echo "**************************"
     git log $commit...$tag --pretty=format:%B
 
