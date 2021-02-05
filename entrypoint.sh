@@ -125,8 +125,8 @@ fi
 
 
 if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ]; then
+    echo "\tnumber_of_major: Base value of new: $new"
     new=$tagWithoutPrefix
-    echo "\tBase value of new: $new"
     for (( c=1; c<=$number_of_patch; c++ ))
     do
       echo "\tValue of new before iteration $c= $new"
@@ -136,6 +136,7 @@ if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ]; then
 fi
 
 if [ $number_of_major = 0 ] & [ -z $new ]; then
+     echo "\number_of_minor: Base value of new: $new"
     new=$tagWithoutPrefix
     for (( c=1; c<=$number_of_minor; c++ ))
     do
@@ -144,6 +145,7 @@ if [ $number_of_major = 0 ] & [ -z $new ]; then
 fi
 
 if [ $number_of_major > 0 ]; then
+   echo "\number_of_major: Base value of new: $new"
     new=$tagWithoutPrefix
     for (( c=1; c<=$number_of_major; c++ ))
     do
@@ -156,6 +158,7 @@ if [ -z $new ]; then
     if [ "$default_semvar_bump" == "none" ]; then
             echo "Default bump was set to none. Skipping..."; exit 0 
     else 
+            echo "Default bump was set to SOMETING none. Skipping..."
             new=$(semver -i "${default_semvar_bump}" $tagWithoutPrefix); part=$default_semvar_bump 
     fi 
 fi
