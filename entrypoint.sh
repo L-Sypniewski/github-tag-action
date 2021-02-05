@@ -99,6 +99,7 @@ if [ $tag = $initial_version ]; then
 else 
 
     echo -e "Tag is not equal to initial version"
+    echo -e "\tGITHUB_SHA: ${GITHUB_SHA}"
     echo -e "\tCurrent commit: ${commit}\n\tlast tag: ${tag}"
     echo -e "Latest commits:"
     echo -e "\t$(git log $commit...$tag --pretty=format:%B)"
