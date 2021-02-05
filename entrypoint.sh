@@ -87,19 +87,52 @@ fi
 
 # calculate new tag
 
+    # Get number of occurrences of bump key words in 
+    # all commits between the current one and the last tag
+
+number_of_major=$(git log $commit...$tag --pretty=format:%B | grep -E "#major" -c)
+number_of_minor=$(git log $commit...$tag --pretty=format:%B | grep -E "#minor" -c)
+number_of_patch=$(git log $commit...$tag --pretty=format:%B | grep -E "#patch" -c)
+
 tagWithoutPrefix=${tag#"$prefix"}
-case "$log" in
-    *#major* ) new=$(semver -i major $tagWithoutPrefix); part="major";;
-    *#minor* ) new=$(semver -i minor $tagWithoutPrefix); part="minor";;
-    *#patch* ) new=$(semver -i patch $tagWithoutPrefix); part="patch";;
-    * ) 
-        if [ "$default_semvar_bump" == "none" ]; then
+
+if $verbose
+then
+  echo e "number_of_major occurrences ${number_of_major}\n"
+  echo e "number_of_minor occurrences ${number_of_minor}\n"
+  echo e "number_of_patch occurrences ${number_of_patch}\n"
+  echo e "tagWithoutPrefix ${tagWithoutPrefix}\n"
+fi
+
+
+if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ] then
+    for (( c=1; c<=$number_of_patch; c++ ))
+    do
+        new=$(semver -i patch $tagWithoutPrefix); part="patch"
+    done
+fi
+
+if [ $number_of_major = 0 ] then
+    for (( c=1; c<=$number_of_minor; c++ ))
+    do
+        new=$(semver -i minor $tagWithoutPrefix); part="minor"
+    done
+fi
+
+for (( c=1; c<=$number_of_major; c++ ))
+    do
+        new=$(semver -i major $tagWithoutPrefix); part="major"
+    done
+
+if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ] & [ $number_of_patch = 0 ]; then
+    if [ "$default_semvar_bump" == "none" ]; then
             echo "Default bump was set to none. Skipping..."; exit 0 
         else 
             new=$(semver -i "${default_semvar_bump}" $tagWithoutPrefix); part=$default_semvar_bump 
         fi 
         ;;
-esac
+fi
+
 
 if $pre_release
 then
