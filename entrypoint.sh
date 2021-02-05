@@ -134,18 +134,22 @@ else
 fi
 
 # set outputs
+new_tag_without_prefix=${new#"$prefix"}
+echo "New tag without prefix: $new_tag_without_prefix"
+echo "Prefix: $prefix"
+echo "new_tag: $new_tag"
+
 echo ::set-output name=new_tag::$new
-echo ::set-output name=new_tag_without_prefix::$tagWithoutPrefix
+echo ::set-output name=new_tag_without_prefix::$new_tag_without_prefix
 echo ::set-output name=part::$part
 
 # use dry run to determine the next tag
 if $dryrun
 then
-    echo ::set-output name=tag::$tag
     exit 0
 fi 
 
-echo ::set-output name=tag::$new
+echo ::set-output name=tag::$tag
 
 # create local git tag
 git tag $new
