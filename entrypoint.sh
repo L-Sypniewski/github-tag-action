@@ -125,7 +125,7 @@ fi
 
 
 if [ $number_of_major = 0 ] & [ $number_of_minor = 0 ]; then
-    echo "\tnumber_of_major: Base value of new: $new"
+    echo "\number_of_patch: Base value of new: $new"
     new=$tagWithoutPrefix
     for (( c=1; c<=$number_of_patch; c++ ))
     do
